@@ -34,7 +34,7 @@ jobs:
               -e POSTGRES_PASSWORD=admin123 \
               -e POSTGRES_DB=basic3tier \
               -p 5432:5432 \
-              postgres:
+              postgres
 
             # Run the API
             sudo docker rm -f my3tier-api || true
