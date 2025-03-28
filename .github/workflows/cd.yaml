@@ -19,7 +19,7 @@ jobs:
 
       - name: Deploy Docker containers on EC2
         run: |
-          ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOST }} "
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "
             # Pull latest images
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-api:latest
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-ui:latest
@@ -50,4 +50,3 @@ jobs:
               ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-ui:latest
           "
 
-          
