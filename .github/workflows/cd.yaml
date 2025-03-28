@@ -13,9 +13,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.8.1
+        uses: webfactory/ssh-agent@v0.9.0
         with:
-          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+            ssh-private-key: ${{ secrets.EC2_PRIVATE_KEY }}
 
       - name: Deploy Docker containers on EC2
         run: |
