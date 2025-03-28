@@ -49,3 +49,5 @@ jobs:
               -p 80:80 -e API_URL="http://${{ secrets.EC2_HOST }}:5000/" \
               ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-ui:latest
           "
+
+          
