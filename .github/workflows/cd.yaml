@@ -21,15 +21,15 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "
             # Pull latest images
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-api:latest
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-ui:latest
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-api:latest
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-ui:latest
 
             # Create a Docker network
-            docker network create my3tier || true
+            sudo docker network create my3tier || true
 
             # Run Postgres
-            docker rm -f my3tier-db || true
-            docker run -d --network my3tier --name my3tier-db \
+            sudo docker rm -f my3tier-db || true
+            sudo docker run -d --network my3tier --name my3tier-db \
               -e POSTGRES_USER=postgres \
               -e POSTGRES_PASSWORD=admin123 \
               -e POSTGRES_DB=basic3tier \
@@ -37,15 +37,15 @@ jobs:
               postgres:
 
             # Run the API
-            docker rm -f my3tier-api || true
-            docker run -d --network my3tier --name my3tier-api \
+            sudo docker rm -f my3tier-api || true
+            sudo docker run -d --network my3tier --name my3tier-api \
               -p 5000:80 \
               -e ConnectionStrings__Basic3Tier=\"Host=my3tier-db;Port=5432;Database=basic3tier;Username=postgres;Password=admin123\" \
               ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-api:latest
 
             # Run the UI
-            docker rm -f my3tier-ui || true
-            docker run -d --network my3tier --name my3tier-ui \
+            sudo docker rm -f my3tier-ui || true
+            sudo docker run -d --network my3tier --name my3tier-ui \
               -p 80:80 -e API_URL="http://${{ secrets.EC2_HOST }}:5000/" \
               ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-ui:latest
           "
