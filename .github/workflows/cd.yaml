@@ -21,8 +21,8 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "
             # Pull latest images
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-api:latest
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-ui:latest
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/api:latest
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/ui:latest
 
             # Create a Docker network
             sudo docker network create my3tier || true
@@ -41,11 +41,11 @@ jobs:
             sudo docker run -d --network my3tier --name my3tier-api \
               -p 5000:80 \
               -e ConnectionStrings__Basic3Tier=\"Host=my3tier-db;Port=5432;Database=basic3tier;Username=postgres;Password=admin123\" \
-              ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-api:latest
+              ${{ secrets.DOCKERHUB_USERNAME }}/api:latest
 
             # Run the UI
             sudo docker rm -f my3tier-ui || true
             sudo docker run -d --network my3tier --name my3tier-ui \
               -p 80:80 -e API_URL="http://${{ secrets.EC2_HOST }}:5000/" \
-              ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-ui:latest
+              ${{ secrets.DOCKERHUB_USERNAME }}/ui:latest
           "

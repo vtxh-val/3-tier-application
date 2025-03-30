@@ -24,10 +24,10 @@ jobs:
 
       - name: Build Docker images
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-ui:latest ./ui
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-api:latest ./api
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/ui:latest ./ui
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/api:latest ./api
 
       - name: Push Docker images
         run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-ui:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-api:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/ui:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/api:latest
